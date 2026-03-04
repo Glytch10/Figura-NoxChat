@@ -1,3 +1,4 @@
+
 *I present to you, the next step in Figura model evolution:*
 
 # NoxChat
@@ -17,6 +18,8 @@ __How do I use it__?
 - note that the above three features will require Dev > Chat Messages: ON in your Figura settings.
 
 Do not claim this script as your own or try to modify it without my consent pls
+
+![Minecraft_Formatting](https://github.com/user-attachments/assets/fffed992-7bf8-4cc7-9743-6ddd5132a82d)
 
 ### What's Figura? see below.
 https://modrinth.com/mod/figura
