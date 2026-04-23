@@ -1,9 +1,8 @@
 ChatCfg = {
 
-
-
   --========================== AUTO-FORMAT OPTIONS ==========================--
   -- Fill this region with whatever formatting you want to automatically apply to your messages. Ex: '&c&o', for italic red.
+    -- &4 YOU MUST HAVE 'SEND CHAT MESSAGES' ENABLED IN YOUR FIGURA SETTINGS FOR THIS TO WORK.
   default = "",
   -- Fill this region with whatever symbol(s) you want to use to CANCEL the above formatting and send a regular message. '/' is already included.
   escape = "",
@@ -67,7 +66,7 @@ ChatCfg = {
     -- max interpreter length. leave blank to disable, set to 0 to shut off the interpreter.
       -- if you are receiving the error "message exceeded interpreter length" frequently, this value may be too low.
       -- be advised that disabling this failsafe or setting the value too high could result in lag spikes with complex messages.
-  maxLength = 2048,
+  maxLength = 4096,
     -- whether or not to show interpreter errors or simply fallback to the default message.
       -- not showing the error makes it harder for me to debug, but makes it more convenient to read.
   showErrors = true,
@@ -85,63 +84,8 @@ ChatCfg = {
 
 }
 
---[[========================== CYPHERS ==========================--
-
-  The following table is how custom "fonts" are loaded into NoxChat's send handler.
-  There are no actual fonts, you just have a list of characters and their replacements.
-  Essentially, it is a dictionary.
-  The code will check each letter in the message you send, and if it is in the cypher table,
-  it will replace it with the cypher letter.
-  This makes it appear as the sent character FOR EVERYONE.
-  Not just NoxChat users.
-  This can be both a good thing and a bad thing.
-  Since Figura modifies chat messages on the client end,
-  these messages and their contents can be reported. Neither Figura nor I will take
-  responsibility if a NoxChat message gets reported.
-
-  TO USE:
-   - Decide on a symbol(s) to use before a set of () as "font brackets". Example, "cyph:" would end up "cyph:(nameofcypher)"
-   - Use empty brackets in-game to clear the cypher. Example, "cyph:()"
-   - Name your cypher, and set it = to a table {}. The name will be used in the font brackets
-   - In the cypher table {}, set a sequence of symbols equal to their replacement. Recommended format is ["a"] = "letter to replace a"
-   - Ensure that there are commas between each value
-
-=================================================================]]
-
-CYPHERS = {
-  
-  sc = { -- Not all letters have to be filled. This cypher (small capitals) only affects lowercase letters that don't already look like capitals.
-    a="ᴀ",b="ʙ",d="ᴅ",e="ᴇ",f="ғ",
-    g="ɢ",h="ʜ",i="ɪ",j="ᴊ",k="ᴋ",l="ʟ",
-    m="ᴍ",n="ɴ",p="ᴘ",q="ǫ",r="ʀ",
-    t="ᴛ",u="ᴜ",v="ᴠ",w="ᴡ",y="ʏ"
-  },
-  olde = { -- there is a difference between lowercase and upper
-    A="𝔄",B="𝔅",C="ℭ",D="𝔇",E="𝔈",F="𝔉",G="𝔊",
-    H="ℌ",I="ℑ",J="𝔍",K="𝔎",L="𝔏",M="𝔐",N="𝔑",
-    O="𝔒",P="𝔓",Q="𝔔",R="ℜ",S="𝔖",T="𝔗",U="𝔘",
-    V="𝔙",W="𝔚",X="𝔛",Y="𝔜",Z="ℨ",
-    a="𝔞",b="𝔟",c="𝔠",d="𝔡",e="𝔢",f="𝔣",g="𝔤",
-    h="𝔥",i="𝔦",j="𝔧",k="𝔨",l="𝔩",m="𝔪",n="𝔫",
-    o="𝔬",p="𝔭",q="𝔮",r="𝔯",s="𝔰",t="𝔱",u="𝔲",
-    v="𝔳",w="𝔴",x="𝔵",y="𝔶",z="𝔷",
-  },
-  bin = { -- this is really just an example of how to format numbers and symbols
-    ["2"]="10 ",["3"]="11 ",["4"]="100 ",
-    ["5"]="101 ",["6"]="110 ",["7"]="111 ",["8"]="1000 ",["9"]="1001 ",
-  },
-  sga = { -- bro's speakin enchantingtable
-    A="ᔑ",B="ʖ",C="ᓵ",D="↸",E="ᒷ",F="⎓",G="⊣",
-    H="⍑",I="╎",J="⋮",K="ꖌ",L="ꖎ",M="ᒲ",N="リ",
-    O="𝙹",P="!¡",Q="ᑑ",R="∷",S="ᓭ",T="ℸ\\u0323",U="⚍",
-    V="⍊",W="∴",X="̇/",Y="\\|\\|",Z="⨅",
-    a="ᔑ",b="ʖ",c="ᓵ",d="↸",e="ᒷ",f="⎓",g="⊣",
-    h="⍑",i="╎",j="⋮",k="ꖌ",l="ꖎ",m="ᒲ",n="リ",
-    o="𝙹",p="!¡",q="ᑑ",r="∷",s="ᓭ",t="ℸ\\u0323",u="⚍",
-    v="⍊",w="∴",x="̇/",y="\\|\\|",z="⨅",
-  },
-
-}
+-- CYPHERS HAVE MOVED!!!! Require the cyphers module (found on the github) here:
+CYPHERS = require("NoxCyphers")
 
 --[[
 ========================================================
@@ -154,6 +98,7 @@ CYPHERS = {
 |                death may occur.                      |
 ========================================================
 ]] --
+
 
 function pings.speakSound(pos)
   for i,v in ipairs(ChatCfg.speakSounds) do if ChatCfg.speakPitch[i] ~= nil and ChatCfg.speakVol[i] ~= nil then sounds:playSound(v,pos,ChatCfg.speakVol[i],ChatCfg.speakPitch[i]) end end end
@@ -351,6 +296,7 @@ local function hovcap(h)
   return h
 end
 events.chat_receive_message:register( function(raw, text)
+  if not player:isLoaded() then return text end
   for _,v in ipairs(ChatCfg.cancelKeys) do
     if text:match(v) then return text end
   end
@@ -401,7 +347,7 @@ events.chat_receive_message:register( function(raw, text)
   until true end
   out = out:gsub("\\(\\[nu%*%_%|%~%&])","%1")
   out = out:gsub("\\([%*%_%|%~%&])","%1")
-  out = out:gsub("([^\\])\\([^\\])","%1".."\\\\".."%2")
+  out = out:gsub("([^\\])\\([^\\\"])","%1".."\\\\".."%2")
   if err == "unknown" then decode(out..en)
   else local prerr = err err = "unknown" if ChatCfg.showErrors then return '§r§9§l§nNOXCHAT FAILURE!\n§r§7§lJSON:§r§8§o'..out..en..'\n§r§c§lERROR: §r§4§o'..prerr..'\n§r'..raw..'', vec(0.1,0,0) else return text, vec(0.1,0,0) end end
   return out..en, brgb
